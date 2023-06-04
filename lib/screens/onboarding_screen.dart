@@ -107,9 +107,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         children: [
                           currentIndex == 0
                               ? const SizedBox()
-                              : const MyButton(
+                              : MyButton(
                                   color: kDarkColor,
                                   icon: Icons.arrow_back,
+                                  setPage: () {
+                                    _controller?.previousPage(
+                                        duration:
+                                            const Duration(microseconds: 100),
+                                        curve: Curves.decelerate);
+                                  },
                                 ),
                           currentIndex == 2
                               ? GestureDetector(
@@ -122,19 +128,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                       icon: Icons.arrow_forward,
                                       color: kPrimaryColor),
                                 )
-                              : GestureDetector(
-                                  onTap: () {
-                                    print('next page');
+                              : MyButton(
+                                  color: kPrimaryColor,
+                                  icon: Icons.arrow_forward,
+                                  setPage: () {
                                     _controller?.nextPage(
                                         duration:
                                             const Duration(microseconds: 100),
                                         curve: Curves.easeInOut);
                                   },
-                                  child: const MyButton(
-                                    color: kPrimaryColor,
-                                    icon: Icons.arrow_forward,
-                                  ),
-                                )
+                                ),
                         ],
                       ),
                     )

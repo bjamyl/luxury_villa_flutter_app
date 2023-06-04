@@ -19,7 +19,7 @@ class CustomTextButton extends StatelessWidget {
       alignment: Alignment.center,
       decoration:
           BoxDecoration(color: color, borderRadius: BorderRadius.circular(16)),
-      width: size.width * 0.4,
+      width: size.width * 0.5,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -31,7 +31,7 @@ class CustomTextButton extends StatelessWidget {
                   color: Colors.white,
                   fontSize: 18),
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Icon(
