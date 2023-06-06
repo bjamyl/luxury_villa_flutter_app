@@ -45,13 +45,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         actions: [
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: const [
               Padding(
-                padding: const EdgeInsets.only(right: 25),
+                padding: EdgeInsets.only(right: 25),
                 child: Text(
                   'SKIP',
-                  style:
-                      TextStyle(color: kDarkColor, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: kDarkColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ],
