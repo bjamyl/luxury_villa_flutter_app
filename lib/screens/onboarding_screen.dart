@@ -4,6 +4,7 @@ import '../dummy_data.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_button.dart';
 import '../screens/home.dart';
+import '../screens/signin_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -123,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               ? GestureDetector(
                                   onTap: () {
                                     Navigator.of(context)
-                                        .pushNamed(Home.routeName);
+                                        .pushNamed(SignInScreen.routeName);
                                   },
                                   child: const CustomTextButton(
                                       buttonText: 'Get Started',

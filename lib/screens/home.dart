@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:http/http.dart' as http;
-import '../models/post.dart';
-import '../models/data_model.dart';
+import '../models/listing.dart';
 import '../constants.dart';
 import '../widgets/home_screen/discover_card.dart';
 import '../widgets/home_screen/my_appbar_title.dart';
@@ -24,26 +23,66 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool _isLoading = true;
 
+  List? _listings;
+
+  Future<void> getData() async {
+    final url = Uri.parse("http://10.0.2.2:8000/api/listings/");
+    print('This run');
+
+    try {
+      http.Response res = await http.get(url);
+      final extractedData = json.decode(res.body);
+      final List<Listing> loadedListings = [];
+      // extractedData.forEach(
+      //   (listingId, listingData) {
+      //     loadedListings.add(Listing(
+      //         id: listingData['id'],
+      //         title: listingData['title'],
+      //         country: listingData['country'],
+      //         city: listingData['city'],
+      //         description: listingData['description'],
+      //         pricePerDay: listingData['price_per_day'],
+      //         pricePerYear: listingData['price_per_year'],
+      //         sqft: listingData['sqft'],
+      //         bedrooms: listingData['bedrooms'],
+      //         bathrooms: listingData['bathrooms'],
+      //         imgDir: listingData['photo']));
+      //   },
+      // );
+      // extractedData.map((listing) {
+      //   loadedListings.add(Listing(
+      //       id: listing['id'],
+      //       title: listing['title'],
+      //       country: listing['country'],
+      //       city: listing['city'],
+      //       description: listing['description'],
+      //       pricePerDay: listing['price_per_day'],
+      //       pricePerYear: listing['price_per_year'],
+      //       sqft: listing['sqft'],
+      //       bedrooms: listing['bedrooms'],
+      //       bathrooms: listing['bathrooms'],
+      //       imgDir: listing['photo']));
+      // });
+
+      _listings = loadedListings;
+      print(loadedListings);
+
+      // print(extractedData);
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @override
   void initState() {
-    _getData();
+    print('Initialized');
     super.initState();
   }
 
-  DataModel? dataFromAPI;
-  _getData() async {
-    try {
-      String url = 'https://dummyjson.com/produts';
-      http.Response res = await http.get(Uri.parse(url));
-      if (res.statusCode == 200) {
-        dataFromAPI = DataModel.fromJson(json.decode(res.body));
-        _isLoading = false;
-        debugPrint(dataFromAPI as String);
-        setState(() {});
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+  @override
+  void didChangeDependencies() {
+    getData();
+    super.didChangeDependencies();
   }
 
   @override
@@ -84,14 +123,14 @@ class _HomeState extends State<Home> {
               height: 230,
               child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: LISTINGS_DATA.length,
+                  itemCount: _listings?.length,
                   itemBuilder: (ctx, i) {
                     return ListingCard(
-                      title: LISTINGS_DATA[i].title,
-                      city: LISTINGS_DATA[i].city,
-                      country: LISTINGS_DATA[i].country,
-                      price: LISTINGS_DATA[i].pricePerDay,
-                      imgDir: LISTINGS_DATA[i].imgDir,
+                      title: _listings?[i]["title"],
+                      city: _listings?[i]["city"],
+                      country: _listings?[i]["country"],
+                      price: _listings?[i]["pricePerDay"],
+                      imgDir: _listings?[i]["imgDir"],
                     );
                   }),
             ),
