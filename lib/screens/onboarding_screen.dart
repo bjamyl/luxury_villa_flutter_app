@@ -124,7 +124,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               ? GestureDetector(
                                   onTap: () {
                                     Navigator.of(context)
-                                        .pushNamed(SignInScreen.routeName);
+                                        .pushNamed(Home.routeName);
                                   },
                                   child: const CustomTextButton(
                                       buttonText: 'Get Started',
