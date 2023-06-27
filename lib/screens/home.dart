@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/listing.dart';
+import '../constants.dart';
 import '../providers/listings.dart';
 import '../widgets/home_screen/discover_card.dart';
 import '../widgets/home_screen/my_appbar_title.dart';
+import '../widgets/home_screen/home_main.dart';
 import '../widgets/home_screen/search_and_settings.dart';
 import '../widgets/home_screen/popular_and_viewall.dart';
 import '../widgets/home_screen/listing_card.dart';
+import '../screens/account_screen.dart';
+import '../screens/favorites_screen.dart';
+import '../screens/messages_screen.dart';
+import '../screens/near_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,6 +25,19 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late final Future myFuture;
+
+  //Create variable to toggle bottom navigation bar
+  int myIndex = 0;
+
+  //Create a list of page widgets to change to from navigation bar
+  final List<Widget> myWidgets = [];
+  List<Widget> widgetList = [
+    const NearScreen(),
+    const FavoritesScreen(),
+    const MessagesScreen(),
+    const AccountScreen(),
+  ];
+
   @override
   void initState() {
     myFuture =
@@ -28,7 +47,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -54,46 +73,30 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const DiscoverCard(),
-            const SearchAndSettings(),
-            const PopularAndViewAll(),
-            SizedBox(
-              height: 230,
-              child: FutureBuilder(
-                builder: (ctx, dataSnapshot) {
-                  if (dataSnapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else {
-                    if (dataSnapshot.error != null) {
-                      return const Center(
-                        child: Text('Something went wrong'),
-                      );
-                    } else {
-                      return Consumer<Listings>(
-                        builder: (ctx, listingsData, child) => ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: listingsData.items.length,
-                            itemBuilder: (ctx, i) => ListingCard(
-                                title: listingsData.items[i].title,
-                                city: listingsData.items[i].city,
-                                country: listingsData.items[i].country,
-                                price: '300',
-                                imgDir: listingsData.items[i].photo)),
-                      );
-                    }
-                  }
-                },
-                future: myFuture,
-              ),
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: const Color.fromRGBO(242, 247, 255, 1),
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          selectedItemColor: kPrimaryColor,
+          unselectedItemColor: Colors.grey,
+          onTap: (index) {
+            setState(() {
+              myIndex = index;
+            });
+          },
+          currentIndex: myIndex,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.near_me), label: 'Near Me'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite), label: 'Favorites'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.message_rounded), label: 'Message'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle), label: 'Account'),
+          ]),
+      body: myIndex ==  ? HomeMain(myFuture: myFuture) : widgetList[myIndex],
     );
   }
 }
