@@ -24,7 +24,9 @@ class ListingCard extends StatelessWidget {
       margin: EdgeInsets.only(left: 34),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(24),
-          image: DecorationImage(fit: BoxFit.cover, image: AssetImage(imgDir))),
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: NetworkImage('http://10.0.2.2:8000$imgDir'))),
       child: Stack(children: [
         Padding(
           padding: const EdgeInsets.all(20),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/listing.dart';
 import '../providers/listings.dart';
 import '../widgets/home_screen/discover_card.dart';
 import '../widgets/home_screen/my_appbar_title.dart';
@@ -17,25 +18,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  var _isLoading = false;
-
+  late final Future myFuture;
   @override
   void initState() {
-    Future.delayed(Duration.zero).then((_) async {
-      setState(() {
-        _isLoading = true;
-      });
-      await Provider.of<Listings>(context, listen: false).fetchListings();
-      setState(() {
-        _isLoading = false;
-      });
-    });
+    myFuture =
+        Provider.of<Listings>(context, listen: false).fetchAndSetListings();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final listings = Provider.of<Listings>(context).listings;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -70,48 +62,35 @@ class _HomeState extends State<Home> {
             const PopularAndViewAll(),
             SizedBox(
               height: 230,
-              child: ListView.builder(
-                itemCount: listings.length,
-                itemBuilder: (ctx, i) => ListingCard(
-                    title: listings[i].title,
-                    city: listings[i].city,
-                    country: listings[i].country,
-                    price: listings[i].pricePerDay as String,
-                    imgDir: listings[i].photo),
+              child: FutureBuilder(
+                builder: (ctx, dataSnapshot) {
+                  if (dataSnapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    if (dataSnapshot.error != null) {
+                      return const Center(
+                        child: Text('Something went wrong'),
+                      );
+                    } else {
+                      return Consumer<Listings>(
+                        builder: (ctx, listingsData, child) => ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: listingsData.items.length,
+                            itemBuilder: (ctx, i) => ListingCard(
+                                title: listingsData.items[i].title,
+                                city: listingsData.items[i].city,
+                                country: listingsData.items[i].country,
+                                price: '300',
+                                imgDir: listingsData.items[i].photo)),
+                      );
+                    }
+                  }
+                },
+                future: myFuture,
               ),
-            )
-            // SizedBox(
-            //   height: 230,
-            //   child: FutureBuilder(
-            //     builder: (ctx, dataSnapshot) {
-            //       if (dataSnapshot.connectionState == ConnectionState.waiting) {
-            //         return const Center(
-            //           child: CircularProgressIndicator(),
-            //         );
-            //       } else {
-            //         if (dataSnapshot.error != null) {
-            //           return const Center(
-            //             child: Text('Something went wrong'),
-            //           );
-            //         } else {
-            //           return Consumer<Listings>(
-            //             builder: (ctx, listingsData, child) => ListView.builder(
-            //                 itemCount: listingsData.listings.length,
-            //                 itemBuilder: (ctx, i) => ListingCard(
-            //                     title: listingsData.listings[i].title,
-            //                     city: listingsData.listings[i].city,
-            //                     country: listingsData.listings[i].country,
-            //                     price: listingsData.listings[i].pricePerDay
-            //                         as String,
-            //                     imgDir: listingsData.listings[i].photo)),
-            //           );
-            //         }
-            //       }
-            //     },
-            //     future: Provider.of<Listings>(context, listen: false)
-            //         .fetchListings(),
-            //   ),
-            // ),
+            ),
           ],
         ),
       ),

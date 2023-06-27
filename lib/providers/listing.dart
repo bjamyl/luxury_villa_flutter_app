@@ -1,41 +1,39 @@
 import 'dart:convert';
 
-Listing listingFromJson(String str) => Listing.fromJson(json.decode(str));
-
-String listingToJson(Listing data) => json.encode(data.toJson());
 
 class Listing {
-    int id;
-    String title;
-    String city;
-    String country;
-    String description;
-    int pricePerDay;
-    int pricePerYear;
-    int sqft;
-    int bedrooms;
-    String bathrooms;
-    String photo;
-    bool isPublished;
-    DateTime listDate;
+  final int id;
+  final String title;
+  final String city;
+  final String country;
+  final String description;
+  final int pricePerDay;
+  final int pricePerYear;
+  final int sqft;
+  final int bedrooms;
+  final String bathrooms;
+  final String photo;
+  final bool isPublished;
+  final DateTime listDate;
 
-    Listing({
-        required this.id,
-        required this.title,
-        required this.city,
-        required this.country,
-        required this.description,
-        required this.pricePerDay,
-        required this.pricePerYear,
-        required this.sqft,
-        required this.bedrooms,
-        required this.bathrooms,
-        required this.photo,
-        required this.isPublished,
-        required this.listDate,
-    });
+  Listing({
+    required this.id,
+    required this.title,
+    required this.city,
+    required this.country,
+    required this.description,
+    required this.pricePerDay,
+    required this.pricePerYear,
+    required this.sqft,
+    required this.bedrooms,
+    required this.bathrooms,
+    required this.photo,
+    required this.isPublished,
+    required this.listDate,
+  });
 
-    factory Listing.fromJson(Map<String, dynamic> json) => Listing(
+  factory Listing.fromJson(Map<String, dynamic> json) {
+    return Listing(
         id: json["id"],
         title: json["title"],
         city: json["city"],
@@ -48,10 +46,10 @@ class Listing {
         bathrooms: json["bathrooms"],
         photo: json["photo"],
         isPublished: json["is_published"],
-        listDate: DateTime.parse(json["list_date"]),
-    );
+        listDate: DateTime.parse(json["list_date"]));
+  }
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
         "city": city,
@@ -65,5 +63,5 @@ class Listing {
         "photo": photo,
         "is_published": isPublished,
         "list_date": listDate.toIso8601String(),
-    };
+      };
 }
