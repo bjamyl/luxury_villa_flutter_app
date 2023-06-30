@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/home.dart';
 import 'screens/signin_screen.dart';
+import 'screens/tabs_screen.dart';
 import 'package:provider/provider.dart';
 import './providers/listings.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         ),
         home: OnboardingScreen(),
         routes: {
+          TabsScreen.routeName: (context) => const TabsScreen(),
           Home.routeName: (context) => const Home(),
           SignInScreen.routeName: (context) => const SignInScreen(),
         },

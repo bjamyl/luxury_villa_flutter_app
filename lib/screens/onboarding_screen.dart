@@ -3,6 +3,7 @@ import '../constants.dart';
 import '../dummy_data.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_text_button.dart';
+import '../screens/tabs_screen.dart';
 import '../screens/home.dart';
 import '../screens/signin_screen.dart';
 
@@ -124,7 +125,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               ? GestureDetector(
                                   onTap: () {
                                     Navigator.of(context)
-                                        .pushNamed(Home.routeName);
+                                        .pushNamed(TabsScreen.routeName);
                                   },
                                   child: const CustomTextButton(
                                       buttonText: 'Get Started',

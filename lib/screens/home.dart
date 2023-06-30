@@ -29,14 +29,6 @@ class _HomeState extends State<Home> {
   //Create variable to toggle bottom navigation bar
   int myIndex = 0;
 
-  //Create a list of page widgets to change to from navigation bar
-  final List<Widget> myWidgets = [];
-  List<Widget> widgetList = [
-    const NearScreen(),
-    const FavoritesScreen(),
-    const MessagesScreen(),
-    const AccountScreen(),
-  ];
 
   @override
   void initState() {
@@ -73,30 +65,7 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: const Color.fromRGBO(242, 247, 255, 1),
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          selectedItemColor: kPrimaryColor,
-          unselectedItemColor: Colors.grey,
-          onTap: (index) {
-            setState(() {
-              myIndex = index;
-            });
-          },
-          currentIndex: myIndex,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.near_me), label: 'Near Me'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.favorite), label: 'Favorites'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.message_rounded), label: 'Message'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle), label: 'Account'),
-          ]),
-      body: myIndex ==  ? HomeMain(myFuture: myFuture) : widgetList[myIndex],
+      body: HomeMain(myFuture: myFuture)
     );
   }
 }
