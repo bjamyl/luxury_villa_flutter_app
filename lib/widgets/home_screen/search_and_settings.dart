@@ -18,7 +18,7 @@ class SearchAndSettings extends StatelessWidget {
             height: 60,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-                color: Color.fromRGBO(222, 234, 253, 1),
+                color: const Color.fromRGBO(222, 234, 253, 1),
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(
                     width: 1.4,

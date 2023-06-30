@@ -41,6 +41,7 @@ class HomeMain extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemCount: listingsData.items.length,
                           itemBuilder: (ctx, i) => ListingCard(
+                              id: listingsData.items[i].id,
                               title: listingsData.items[i].title,
                               city: listingsData.items[i].city,
                               country: listingsData.items[i].country,

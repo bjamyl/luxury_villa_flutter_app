@@ -2,7 +2,7 @@ import 'dart:convert';
 
 
 class Listing {
-  final int id;
+  late final int id;
   final String title;
   final String city;
   final String country;

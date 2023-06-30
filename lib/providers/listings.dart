@@ -11,18 +11,7 @@ class Listings with ChangeNotifier {
     return [..._listings];
   }
 
-  // Future<List<Listing>> getListingsList() async {
-  //   final url = Uri.parse('http://10.0.2.2:8000/api/listings/');
-  //   final response = await http.get(url);
-
-  //   final items = json.decode(response.body).cast<Map<String, dynamic>>();
-  //   List<Listing> listings = items.map<Listing>((json) {
-  //     return Listing.fromJson(json);
-  //   }).toList();
-
-  //   return listings;
-  // }
-
+  // Fetch and set products from REST API
   Future<void> fetchAndSetListings() async {
     final url = Uri.parse('http://10.0.2.2:8000/api/listings/');
     try {
@@ -38,5 +27,9 @@ class Listings with ChangeNotifier {
     } catch (e) {
       rethrow;
     }
+  }
+
+  Listing findItemById(int id) {
+    return _listings.firstWhere((listing) => listing.id == id);
   }
 }

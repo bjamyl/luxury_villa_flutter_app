@@ -3,6 +3,7 @@ import 'screens/onboarding_screen.dart';
 import 'screens/home.dart';
 import 'screens/signin_screen.dart';
 import 'screens/tabs_screen.dart';
+import 'screens/listing_detail_screen.dart';
 import 'package:provider/provider.dart';
 import './providers/listings.dart';
 
@@ -30,6 +31,8 @@ class MyApp extends StatelessWidget {
           TabsScreen.routeName: (context) => const TabsScreen(),
           Home.routeName: (context) => const Home(),
           SignInScreen.routeName: (context) => const SignInScreen(),
+          ListingDetailScreen.routeName: (context) =>
+              const ListingDetailScreen(),
         },
       ),
     );
