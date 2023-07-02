@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:luxury_villa/providers/listing.dart';
 import 'package:provider/provider.dart';
 import '../constants.dart';
+import '../widgets/custom_text_button.dart';
 import '../providers/listings.dart';
 
 class ListingDetailScreen extends StatelessWidget {
@@ -17,62 +18,91 @@ class ListingDetailScreen extends StatelessWidget {
     final loadedProduct = Provider.of<Listings>(context, listen: false)
         .findItemById(listingId as int);
     return Scaffold(
+        bottomNavigationBar: BottomAppBar(
+            color: const Color.fromRGBO(242, 247, 255, 1),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  RichText(
+                      text: const TextSpan(
+                          text: 'Price',
+                          style: TextStyle(
+                              color: kGradientTop,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                          children: [
+                        TextSpan(
+                            text: '\n\$240',
+                            style: TextStyle(
+                                color: kAccentColor,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold)),
+                        TextSpan(
+                            text: '/Year',
+                            style: TextStyle(color: kAccentColor))
+                      ])),
+                  const CustomTextButton(
+                      buttonText: 'Booking Now',
+                      icon: Icons.arrow_forward,
+                      color: kGradientTop)
+                ],
+              ),
+            )),
         body: SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: deviceSize.height * 0.55,
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: deviceSize.height * 0.45,
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40)),
-                    child: Hero(
-                      tag: loadedProduct.id,
-                      child: Image.network(
-                        'http://10.0.2.2:8000${loadedProduct.photo}',
-                        fit: BoxFit.cover,
+          child: Column(
+            children: [
+              SizedBox(
+                height: deviceSize.height * 0.55,
+                child: Stack(
+                  children: [
+                    SizedBox(
+                      height: deviceSize.height * 0.45,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(40),
+                            bottomRight: Radius.circular(40)),
+                        child: Hero(
+                          tag: loadedProduct.id,
+                          child: Image.network(
+                            'http://10.0.2.2:8000${loadedProduct.photo}',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    ListingDetailsCard(
+                        deviceSize: deviceSize, loadedProduct: loadedProduct)
+                  ],
                 ),
-                ListingDetailsCard(
-                    deviceSize: deviceSize, loadedProduct: loadedProduct)
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              ListingReviewCard(deviceSize: deviceSize),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                width: deviceSize.width * 0.9,
+                alignment: Alignment.centerLeft,
+                child: const Text(
+                  'Overview',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                width: deviceSize.width * 0.9,
+                child: Text(
+                  loadedProduct.description,
+                  style: const TextStyle(
+                      fontSize: 14, color: Color.fromRGBO(136, 136, 136, 1)),
+                ),
+              )
+            ],
           ),
-          const SizedBox(height: 10),
-          ListingReviewCard(deviceSize: deviceSize),
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 20),
-            width: deviceSize.width * 0.9,
-            alignment: Alignment.centerLeft,
-            child: const Text(
-              'Overview',
-              textAlign: TextAlign.start,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            width: deviceSize.width * 0.9,
-            child: Text(
-              loadedProduct.description,
-              style: const TextStyle(
-                  fontSize: 14, color: Color.fromRGBO(136, 136, 136, 1)),
-            ),
-          )
-        ],
-      ),
-    ));
+        ));
   }
 }
-
-
-
-
 
 class ListingReviewCard extends StatelessWidget {
   const ListingReviewCard({
@@ -120,8 +150,7 @@ class ListingReviewCard extends StatelessWidget {
                           children: [
                         TextSpan(
                             text: "( 1290 Reviews )",
-                            style: TextStyle(
-                                color: kAccentColor, fontSize: 15))
+                            style: TextStyle(color: kAccentColor, fontSize: 15))
                       ]))
                 ],
               )
