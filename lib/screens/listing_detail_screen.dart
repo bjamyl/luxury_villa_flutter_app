@@ -27,20 +27,20 @@ class ListingDetailScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                           text: 'Price',
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: kGradientTop,
                               fontSize: 14,
                               fontWeight: FontWeight.bold),
                           children: [
                         TextSpan(
-                            text: '\n\$240',
-                            style: TextStyle(
+                            text: '\n\$${loadedProduct.pricePerYear}',
+                            style: const TextStyle(
                                 color: kAccentColor,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold)),
-                        TextSpan(
+                        const TextSpan(
                             text: '/Year',
                             style: TextStyle(color: kAccentColor))
                       ])),
@@ -213,13 +213,13 @@ class ListingDetailsCard extends StatelessWidget {
                   ),
                   RichText(
                     textAlign: TextAlign.right,
-                    text: const TextSpan(
-                        text: '\$120',
-                        style: TextStyle(
+                    text: TextSpan(
+                        text: '\$${loadedProduct.pricePerDay}',
+                        style: const TextStyle(
                             color: kAccentColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
-                        children: [
+                        children: const [
                           TextSpan(
                               text: '\n/Day',
                               style:

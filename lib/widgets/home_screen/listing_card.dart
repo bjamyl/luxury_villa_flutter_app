@@ -39,7 +39,7 @@ class ListingCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(24),
               child: Hero(
-                tag: id ,
+                tag: id,
                 child: Image.network(
                   'http://10.0.2.2:8000$imgDir',
                   fit: BoxFit.cover,

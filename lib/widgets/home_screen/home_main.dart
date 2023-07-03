@@ -45,7 +45,8 @@ class HomeMain extends StatelessWidget {
                               title: listingsData.items[i].title,
                               city: listingsData.items[i].city,
                               country: listingsData.items[i].country,
-                              price: '300',
+                              price:
+                                  listingsData.items[i].pricePerDay.toString(),
                               imgDir: listingsData.items[i].photo)),
                     );
                   }
