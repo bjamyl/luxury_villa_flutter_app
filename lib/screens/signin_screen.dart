@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants.dart';
+import './signup_screen.dart';
 import '../widgets/generic_text_field.dart';
 import '../widgets/password_text_field.dart';
 
@@ -36,7 +37,7 @@ class SignInScreen extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 34),
+              margin: const EdgeInsets.symmetric(horizontal: 34),
               child: Form(
                 child: Column(
                   children: [
@@ -50,7 +51,6 @@ class SignInScreen extends StatelessWidget {
                     ),
                     const PasswordTextField(
                       hintText: 'Enter password',
-                      
                       labelName: "Password",
                     ),
                     Container(
@@ -88,17 +88,29 @@ class SignInScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            RichText(
-                text: const TextSpan(
-                    text: "Don't Have An Account?",
-                    style: TextStyle(color: Colors.black),
-                    children: [
-                  TextSpan(
-                      text: 'Sign Up', style: TextStyle(color: kPrimaryColor))
-                ]))
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  "Don't Have An Account",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Sign Up',
+                    style: TextStyle(
+                        color: kGradientTop, fontWeight: FontWeight.w600),
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

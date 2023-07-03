@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'screens/onboarding_screen.dart';
 import 'screens/home.dart';
 import 'screens/signin_screen.dart';
+import 'screens/signup_screen.dart';
 import 'screens/tabs_screen.dart';
 import 'screens/listing_detail_screen.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Inter',
           primarySwatch: Colors.blue,
         ),
-        home: OnboardingScreen(),
+        home: const SignUpScreen(),
         routes: {
           TabsScreen.routeName: (context) => const TabsScreen(),
           Home.routeName: (context) => const Home(),

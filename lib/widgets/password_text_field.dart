@@ -38,7 +38,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                 child: TextFormField(
                   obscureText: _isObscure,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     hintText: widget.hintText,
