@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 import '../constants.dart';
 import './signup_screen.dart';
 import '../widgets/generic_text_field.dart';
@@ -16,15 +18,7 @@ class SignInScreen extends StatefulWidget {
 class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey();
 
-  Map<String, String> _authData = {
-    'email': '',
-    'password': '',
-    're_password': ''
-  };
-
   var isLoading = false;
-
-  final _passwordController = TextEditingController();
 
   void _submit() {
     if (!_formKey.currentState!.validate()) {
@@ -34,7 +28,9 @@ class _SignInScreenState extends State<SignInScreen> {
     setState(() {
       isLoading = true;
     });
-    //Sign User up
+    //Log User up
+    Provider.of<Auth>(context, listen: false).signin();
+
     setState(() {
       isLoading = false;
     });
@@ -93,28 +89,37 @@ class _SignInScreenState extends State<SignInScreen> {
                               fontSize: 15,
                               color: Color.fromRGBO(136, 136, 136, 1))),
                     ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 29, vertical: 22),
-                      decoration: BoxDecoration(
-                          color: kPrimaryColor,
-                          borderRadius: BorderRadius.circular(16)),
-                      width: size.width * 0.75,
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            Text(
-                              'Sign In',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                  color: Colors.white),
-                            ),
-                            Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                            )
-                          ]),
+                    GestureDetector(
+                      onTap: _submit,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 29, vertical: 22),
+                        decoration: BoxDecoration(
+                            color: kPrimaryColor,
+                            borderRadius: BorderRadius.circular(16)),
+                        width: size.width * 0.75,
+                        child: isLoading
+                            ? Container(
+                                alignment: Alignment.center,
+                                child: const CircularProgressIndicator(),
+                              )
+                            : Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: const [
+                                    Text(
+                                      'Sign In',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                          color: Colors.white),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward,
+                                      color: Colors.white,
+                                    )
+                                  ]),
+                      ),
                     )
                   ],
                 ),
