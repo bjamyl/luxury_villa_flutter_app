@@ -15,7 +15,11 @@ class Auth with ChangeNotifier {
 
   Future<void> signup() async {
     final url = Uri.parse('http://10.0.2.2:8000/auth/users/');
-    final res = await http.post(url, body: json.encode(authData));
+    final res = await http.post(url,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: json.encode(authData));
     print(json.decode(res.body));
   }
 }
