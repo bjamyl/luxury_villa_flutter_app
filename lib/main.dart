@@ -6,6 +6,7 @@ import 'screens/signup_screen.dart';
 import 'screens/tabs_screen.dart';
 import 'screens/listing_detail_screen.dart';
 import 'package:provider/provider.dart';
+import './providers/auth.dart';
 import './providers/listings.dart';
 
 void main() {
@@ -19,7 +20,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (ctx) => Listings())],
+      providers: [
+        ChangeNotifierProvider(create: (ctx) => Auth()),
+        ChangeNotifierProvider(create: (ctx) => Listings())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',

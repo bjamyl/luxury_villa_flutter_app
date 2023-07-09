@@ -4,10 +4,41 @@ import './signup_screen.dart';
 import '../widgets/generic_text_field.dart';
 import '../widgets/password_text_field.dart';
 
-class SignInScreen extends StatelessWidget {
+class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   static const routeName = '/signin';
+
+  @override
+  State<SignInScreen> createState() => _SignInScreenState();
+}
+
+class _SignInScreenState extends State<SignInScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  Map<String, String> _authData = {
+    'email': '',
+    'password': '',
+    're_password': ''
+  };
+
+  var isLoading = false;
+
+  final _passwordController = TextEditingController();
+
+  void _submit() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    _formKey.currentState!.save();
+    setState(() {
+      isLoading = true;
+    });
+    //Sign User up
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +82,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                     const PasswordTextField(
                       hintText: 'Enter password',
+                      isSignup: false,
                       labelName: "Password",
                     ),
                     Container(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 import '../constants.dart';
 
 class PasswordTextField extends StatefulWidget {
@@ -6,10 +8,12 @@ class PasswordTextField extends StatefulWidget {
     super.key,
     required this.labelName,
     required this.hintText,
+    required this.isSignup,
   });
 
   final String labelName;
   final String hintText;
+  final bool isSignup;
 
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -17,8 +21,10 @@ class PasswordTextField extends StatefulWidget {
 
 class _PasswordTextFieldState extends State<PasswordTextField> {
   var _isObscure = true;
+
   @override
   Widget build(BuildContext context) {
+    final authData = Provider.of<Auth>(context).authData;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,13 +43,22 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
               Flexible(
                 child: TextFormField(
                   obscureText: _isObscure,
+                  validator: (value) {
+                    if (value!.isEmpty || value.length < 5) {
+                      return 'Password is too short';
+                    }
+                    return null;
+                  },
+                  onSaved: (newValue) {
+                    authData['password'] = newValue!;
+                  },
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     hintText: widget.hintText,
                   ),
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                 ),
               ),
               Padding(

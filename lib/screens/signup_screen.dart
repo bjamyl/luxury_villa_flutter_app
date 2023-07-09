@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import './signin_screen.dart';
 import '../constants.dart';
 import '../widgets/generic_text_field.dart';
+import '../providers/auth.dart';
 import '../widgets/password_text_field.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -14,6 +16,26 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey();
+
+  var isLoading = false;
+  // final _passwordController = TextEditingController();
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    _formKey.currentState!.save();
+    setState(() {
+      isLoading = true;
+    });
+    //Sign User up
+    await Provider.of<Auth>(context, listen: false).signup();
+    setState(() {
+      isLoading = false;
+    });
+  }
+
   bool? isChecked = false;
   @override
   Widget build(BuildContext context) {
@@ -54,6 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 34),
                 child: Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       const GenericTextField(
@@ -64,13 +87,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 20),
                         child: const PasswordTextField(
+                          isSignup: true,
                           hintText: 'Enter password',
                           labelName: "Password",
                         ),
                       ),
-                      const PasswordTextField(
-                          labelName: 'Retype Password',
-                          hintText: 'Repeat Password'),
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 7),
                         child: Row(
@@ -101,28 +122,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ],
                         ),
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 29, vertical: 22),
-                        decoration: BoxDecoration(
-                            color: kPrimaryColor,
-                            borderRadius: BorderRadius.circular(16)),
-                        width: size.width * 0.75,
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    color: Colors.white),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                color: Colors.white,
-                              )
-                            ]),
+                      GestureDetector(
+                        onTap: _submit,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 29, vertical: 22),
+                          decoration: BoxDecoration(
+                              color: kPrimaryColor,
+                              borderRadius: BorderRadius.circular(16)),
+                          width: size.width * 0.75,
+                          child: isLoading
+                              ? Container(
+                                  alignment: Alignment.center,
+                                  child: const CircularProgressIndicator(),
+                                )
+                              : Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                      Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color: Colors.white),
+                                      ),
+                                      Icon(
+                                        Icons.arrow_forward,
+                                        color: Colors.white,
+                                      )
+                                    ]),
+                        ),
                       )
                     ],
                   ),

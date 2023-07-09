@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart';
 import '../constants.dart';
 
 class GenericTextField extends StatelessWidget {
@@ -15,6 +17,7 @@ class GenericTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authData = Provider.of<Auth>(context).authData;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,8 +35,17 @@ class GenericTextField extends StatelessWidget {
             children: [
               Flexible(
                 child: TextFormField(
+                  validator: (value) {
+                    if (value!.isEmpty || !value.contains('@')) {
+                      return 'Invalid email';
+                    }
+                    return null;
+                  },
+                  onSaved: (newValue) {
+                    authData['email'] = newValue!;
+                  },
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
                     hintText: hintText,
