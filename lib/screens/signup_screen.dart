@@ -5,6 +5,7 @@ import '../constants.dart';
 import '../widgets/generic_text_field.dart';
 import '../providers/auth.dart';
 import '../widgets/password_text_field.dart';
+import '../models/http_exceptions.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -21,6 +22,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   var isLoading = false;
   // final _passwordController = TextEditingController();
 
+  void _showErrorDialogue(String message) {
+    showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+              title: const Text('Authentication Error'),
+              content: Text(message),
+              actions: [
+                ElevatedButton(
+                  onPressed: Navigator.of(ctx).pop,
+                  child: const Text('OK'),
+                )
+              ],
+            ));
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -30,7 +46,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
       isLoading = true;
     });
     //Sign User up
-    await Provider.of<Auth>(context, listen: false).signup();
+    try {
+      await Provider.of<Auth>(context, listen: false).signup();
+    } on HttpException catch (error) {
+      var errorMessage = 'Authentication failed';
+      if (error.toString().contains('email already exists')) {
+        errorMessage = 'This email address is already taken';
+      } else if (error.toString().contains('password')) {
+        errorMessage = 'This password is too common.';
+      }
+      _showErrorDialogue(errorMessage);
+    } catch (e) {
+      var errorMessage = 'Could not authenticate you. Please try again later';
+      _showErrorDialogue(errorMessage);
+    }
     setState(() {
       isLoading = false;
     });
