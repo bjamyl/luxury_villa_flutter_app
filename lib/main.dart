@@ -24,21 +24,23 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => Auth()),
         ChangeNotifierProvider(create: (ctx) => Listings())
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          fontFamily: 'Inter',
-          primarySwatch: Colors.blue,
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            fontFamily: 'Inter',
+            primarySwatch: Colors.blue,
+          ),
+          home: auth.isAuth? Home() : SignInScreen(),
+          routes: {
+            TabsScreen.routeName: (context) => const TabsScreen(),
+            Home.routeName: (context) => const Home(),
+            SignInScreen.routeName: (context) => const SignInScreen(),
+            ListingDetailScreen.routeName: (context) =>
+                const ListingDetailScreen(),
+          },
         ),
-        home: const SignUpScreen(),
-        routes: {
-          TabsScreen.routeName: (context) => const TabsScreen(),
-          Home.routeName: (context) => const Home(),
-          SignInScreen.routeName: (context) => const SignInScreen(),
-          ListingDetailScreen.routeName: (context) =>
-              const ListingDetailScreen(),
-        },
       ),
     );
   }

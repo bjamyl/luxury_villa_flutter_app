@@ -48,6 +48,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     //Sign User up
     try {
       await Provider.of<Auth>(context, listen: false).signup();
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushNamed(SignInScreen.routeName);
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('email already exists')) {
@@ -200,7 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.of(context).pushNamed(SignInScreen.routeName);
+                      Navigator.of(context).pop();
                     },
                     child: const Text(
                       'Sign In',

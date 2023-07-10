@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/signup_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import '../constants.dart';
@@ -138,7 +139,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(SignUpScreen.routeName);
                   },
                   child: const Text(
                     'Sign Up',
