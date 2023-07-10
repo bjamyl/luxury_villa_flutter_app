@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import '../constants.dart';
-import './signup_screen.dart';
 import '../widgets/generic_text_field.dart';
 import '../widgets/password_text_field.dart';
 
@@ -16,20 +15,20 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final GlobalKey<FormState> _formKey = GlobalKey();
+  final GlobalKey<FormState> _signInformKey = GlobalKey();
 
   var isLoading = false;
 
-  void _submit() {
-    if (!_formKey.currentState!.validate()) {
+  Future<void> _submit() async {
+    if (!_signInformKey.currentState!.validate()) {
       return;
     }
-    _formKey.currentState!.save();
+    _signInformKey.currentState?.save();
     setState(() {
       isLoading = true;
     });
-    //Log User up
-    Provider.of<Auth>(context, listen: false).signin();
+    //Log User in
+    await Provider.of<Auth>(context, listen: false).login();
 
     setState(() {
       isLoading = false;
@@ -66,6 +65,7 @@ class _SignInScreenState extends State<SignInScreen> {
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 34),
               child: Form(
+                key: _signInformKey,
                 child: Column(
                   children: [
                     const GenericTextField(

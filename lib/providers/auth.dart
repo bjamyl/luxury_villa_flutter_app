@@ -13,7 +13,6 @@ class Auth with ChangeNotifier {
     're_password': ''
   };
 
-  Map<String, String> loginData = {'email': '', "password": ''};
 
   Future<void> signup() async {
     final url = Uri.parse('http://10.0.2.2:8000/auth/users/');
@@ -25,13 +24,14 @@ class Auth with ChangeNotifier {
     print(res.body);
   }
 
-  Future<void> signin() async {
+  Future<void> login() async {
     final url = Uri.parse('http://10.0.2.2:8000/auth/jwt/create/');
     final res = await http.post(url,
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: json.encode(loginData));
+        body: json.encode(
+            {"email": authData["email"], "password": authData["password"]}));
     print(res.body);
   }
 }

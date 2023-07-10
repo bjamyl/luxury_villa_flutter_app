@@ -17,7 +17,7 @@ class GenericTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final authData = Provider.of<Auth>(context,listen: false).authData;
+    final authData = Provider.of<Auth>(context, listen: false).authData;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
