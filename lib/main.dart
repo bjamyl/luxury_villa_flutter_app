@@ -32,11 +32,13 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Inter',
             primarySwatch: Colors.blue,
           ),
-          home: auth.isAuth? Home() : SignInScreen(),
+          home: auth.isAuth ? TabsScreen() : SignInScreen(),
           routes: {
             TabsScreen.routeName: (context) => const TabsScreen(),
             Home.routeName: (context) => const Home(),
             SignInScreen.routeName: (context) => const SignInScreen(),
+            // ignore: equal_keys_in_map
+            SignUpScreen.routeName: (context) => const SignUpScreen(),
             ListingDetailScreen.routeName: (context) =>
                 const ListingDetailScreen(),
           },

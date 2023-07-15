@@ -37,6 +37,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ));
   }
 
+  void changeScreen() {
+    Navigator.of(context).pop();
+  }
+
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) {
       return;
@@ -48,13 +52,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     //Sign User up
     try {
       await Provider.of<Auth>(context, listen: false).signup();
-      // ignore: use_build_context_synchronously
-      Navigator.of(context).pushNamed(SignInScreen.routeName);
+      Navigator.of(context).pop();
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
-      if (error.toString().contains('email already exists')) {
+      if (error.toString().contains('email exists')) {
         errorMessage = 'This email address is already taken';
-      } else if (error.toString().contains('password')) {
+      } else if (error
+          .toString()
+          .contains('This password is entirely numeric')) {
         errorMessage = 'This password is too common.';
       }
       _showErrorDialogue(errorMessage);
@@ -64,6 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
     setState(() {
       isLoading = false;
+      changeScreen();
     });
   }
 

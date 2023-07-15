@@ -5,6 +5,7 @@ import 'package:luxury_villa/models/http_exceptions.dart';
 
 class Auth with ChangeNotifier {
   String? _token;
+  String? _refreshToken;
   DateTime? _expiryDate;
   String? _userId;
 
@@ -39,11 +40,10 @@ class Auth with ChangeNotifier {
           body: json.encode(authData));
 
       final resBody = json.decode(res.body);
+      print(resBody);
       //Checking to see if the response has any errors in the response body
       if (resBody['email'][0].toString().contains('email already exists')) {
-        throw HttpException(resBody['email'][0]);
-      } else if (resBody['password'] != null) {
-        throw HttpException(resBody['password'][0]);
+        throw HttpException('email exists');
       }
     } catch (e) {
       rethrow;
@@ -66,10 +66,12 @@ class Auth with ChangeNotifier {
         throw HttpException(responseBody["detail"]);
       }
       _token = responseBody['access'];
+      _refreshToken = responseBody['refresh'];
       _expiryDate = DateTime.now().add(const Duration(seconds: 250));
       notifyListeners();
       // print(res.body);
       print(_token);
+      print(_refreshToken);
     } catch (e) {
       rethrow;
     }

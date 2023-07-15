@@ -38,16 +38,16 @@ class HomeMain extends StatelessWidget {
                   } else {
                     return Consumer<Listings>(
                       builder: (ctx, listingsData, child) => ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: listingsData.items.length,
-                          itemBuilder: (ctx, i) => ListingCard(
-                              id: listingsData.items[i].id,
-                              title: listingsData.items[i].title,
-                              city: listingsData.items[i].city,
-                              country: listingsData.items[i].country,
-                              price:
-                                  listingsData.items[i].pricePerDay.toString(),
-                              imgDir: listingsData.items[i].photo)),
+                        scrollDirection: Axis.horizontal,
+                        itemCount: listingsData.items.length,
+                        itemBuilder: (ctx, i) => ListingCard(
+                            id: listingsData.items[i].id,
+                            title: listingsData.items[i].title,
+                            city: listingsData.items[i].city,
+                            country: listingsData.items[i].country,
+                            price: listingsData.items[i].pricePerDay.toString(),
+                            imgDir: listingsData.items[i].photo),
+                      ),
                     );
                   }
                 }
