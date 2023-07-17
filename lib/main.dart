@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Inter',
             primarySwatch: Colors.blue,
           ),
-          home: auth.isAuth ? TabsScreen() : SignInScreen(),
+          home: auth.isAuth ? TabsScreen() : OnboardingScreen(),
           routes: {
             TabsScreen.routeName: (context) => const TabsScreen(),
             Home.routeName: (context) => const Home(),

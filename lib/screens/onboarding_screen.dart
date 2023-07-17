@@ -6,6 +6,7 @@ import '../widgets/custom_text_button.dart';
 import '../screens/tabs_screen.dart';
 import '../screens/home.dart';
 import '../screens/signin_screen.dart';
+import '../screens/signup_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -37,12 +38,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Container(
-          margin: EdgeInsets.only(left: 10),
+          margin: const EdgeInsets.only(left: 10),
           child: Row(
               children: List.generate(ONBOARDING_DATA.length,
                   (index) => buildDots(index, context))),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
           Column(
@@ -124,8 +125,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           currentIndex == 2
                               ? GestureDetector(
                                   onTap: () {
-                                    Navigator.of(context)
-                                        .pushNamed(TabsScreen.routeName);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (BuildContext context) =>
+                                            const SignInScreen(),
+                                      ),
+                                    );
                                   },
                                   child: const CustomTextButton(
                                       buttonText: 'Get Started',

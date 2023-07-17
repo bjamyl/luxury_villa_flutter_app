@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               title: const Text('Authentication Error'),
               content: Text(message),
               actions: [
-                ElevatedButton(
+                TextButton(
                   onPressed: Navigator.of(ctx).pop,
                   child: const Text('OK'),
                 )
@@ -52,15 +52,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
     //Sign User up
     try {
       await Provider.of<Auth>(context, listen: false).signup();
-      Navigator.of(context).pop();
+      Navigator.of(context).pop;
     } on HttpException catch (error) {
       var errorMessage = 'Authentication failed';
       if (error.toString().contains('email exists')) {
         errorMessage = 'This email address is already taken';
-      } else if (error
-          .toString()
-          .contains('This password is entirely numeric')) {
-        errorMessage = 'This password is too common.';
       }
       _showErrorDialogue(errorMessage);
     } catch (e) {

@@ -29,7 +29,6 @@ class _HomeState extends State<Home> {
   //Create variable to toggle bottom navigation bar
   int myIndex = 0;
 
-
   @override
   void initState() {
     myFuture =
@@ -41,31 +40,30 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     // Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const MyAppBarTitle(),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        actions: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right: 30),
-                width: 52,
-                height: 52,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('assets/images/profile.jpg')),
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-      body: HomeMain(myFuture: myFuture)
-    );
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const MyAppBarTitle(),
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          actions: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(right: 30),
+                  width: 52,
+                  height: 52,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: AssetImage('assets/images/profile.jpg')),
+                  ),
+                )
+              ],
+            )
+          ],
+        ),
+        body: HomeMain(myFuture: myFuture));
   }
 }

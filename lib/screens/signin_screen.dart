@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:luxury_villa/models/http_exceptions.dart';
 import '../screens/signup_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
@@ -19,6 +20,19 @@ class _SignInScreenState extends State<SignInScreen> {
   final GlobalKey<FormState> _signInformKey = GlobalKey();
 
   var isLoading = false;
+  void _showErrorDialogue(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Login Failed'),
+        content: Text(message),
+        actions: [
+          TextButton(
+              onPressed: Navigator.of(ctx).pop, child: const Text('Dismiss'))
+        ],
+      ),
+    );
+  }
 
   Future<void> _submit() async {
     if (!_signInformKey.currentState!.validate()) {
@@ -29,7 +43,19 @@ class _SignInScreenState extends State<SignInScreen> {
       isLoading = true;
     });
     //Log User in
-    await Provider.of<Auth>(context, listen: false).login();
+    try {
+      await Provider.of<Auth>(context, listen: false).login();
+      Navigator.of(context).pop();
+    } on HttpException catch (error) {
+      var errMsg = 'Authentication failed';
+      if (error.toString().contains('No active account')) {
+        errMsg = 'Invalid Credentials';
+      }
+      _showErrorDialogue(errMsg);
+    } catch (e) {
+      var errMsg = 'Could not log in at this time. Please try again later';
+      _showErrorDialogue(errMsg);
+    }
 
     setState(() {
       isLoading = false;
@@ -41,7 +67,7 @@ class _SignInScreenState extends State<SignInScreen> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
       ),
       body: SingleChildScrollView(

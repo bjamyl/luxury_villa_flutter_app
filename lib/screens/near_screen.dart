@@ -71,11 +71,15 @@ class _NearScreenState extends State<NearScreen> {
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 200,
-                                childAspectRatio: 3 / 2,
+                                childAspectRatio: 3 / 4,
                                 crossAxisSpacing: 20,
                                 mainAxisSpacing: 20),
                         itemCount: listingsData.items.length,
                         itemBuilder: (ctx, i) => NearListCard(
+                            sqft: listingsData.items[i].sqft.toString(),
+                            price: listingsData.items[i].pricePerDay.toString(),
+                            city: listingsData.items[i].city,
+                            country: listingsData.items[i].country,
                             id: listingsData.items[i].id,
                             title: listingsData.items[i].title,
                             imgDir: listingsData.items[i].photo),
@@ -94,51 +98,89 @@ class _NearScreenState extends State<NearScreen> {
 }
 
 class NearListCard extends StatelessWidget {
-  const NearListCard({
-    super.key,
-    required this.id,
-    required this.imgDir,
-    required this.title, required this.city, required this.country,
-  });
+  const NearListCard(
+      {super.key,
+      required this.id,
+      required this.imgDir,
+      required this.title,
+      required this.city,
+      required this.country,
+      required this.price,
+      required this.sqft});
 
   final int id;
   final String imgDir;
   final String title;
   final String city;
   final String country;
+  final String price;
+  final String sqft;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
-          width: 171,
-          height: 200,
-          child: Stack(children: [
-            SizedBox(
-              height: 100,
-              width: 171,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Hero(
-                    tag: id,
-                    child: Image.network(
-                      'http://10.0.2.2:8000$imgDir',
-                      fit: BoxFit.cover,
-                    )),
+        Stack(children: [
+          SizedBox(
+            height: 100,
+            width: 171,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                'http://10.0.2.2:8000$imgDir',
+                fit: BoxFit.cover,
               ),
             ),
-          ]),
-        ),
+          ),
+        ]),
         Column(
           children: [
-            Text(
-              title,
-              style: const TextStyle(
-                  color: kDarkColor, fontSize: 18, fontWeight: FontWeight.bold),
+            Container(
+              padding: const EdgeInsets.only(top: 7, bottom: 3),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                style: const TextStyle(
+                    color: kDarkColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17),
+              ),
             ),
-            const SizedBox(height: 5),
-            Text("")
+            Container(
+              padding: const EdgeInsets.only(bottom: 2),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "$city, $country",
+                style: const TextStyle(
+                    color: kDarkColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RichText(
+                    text: TextSpan(
+                        style: const TextStyle(
+                            color: kDarkColor,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
+                        text: '\$$price',
+                        children: const [
+                      TextSpan(
+                        text: '/DAY',
+                        style: TextStyle(
+                            fontSize: 13, fontWeight: FontWeight.normal),
+                      )
+                    ])),
+                Text(
+                  '$sqft sqft',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 13),
+                )
+              ],
+            )
           ],
         )
       ],

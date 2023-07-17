@@ -22,6 +22,7 @@ class PasswordTextField extends StatefulWidget {
 class _PasswordTextFieldState extends State<PasswordTextField> {
   var _isObscure = true;
   var _isConfirmedObscure = true;
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -40,15 +41,23 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
             ),
             Container(
               decoration: BoxDecoration(
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.06),
+                        spreadRadius: -5.0,
+                        blurRadius: 20,
+                        offset: Offset(0, 8)),
+                  ],
                   color: const Color.fromRGBO(222, 234, 253, 1),
                   borderRadius: BorderRadius.circular(15)),
               child: Row(
                 children: [
                   Flexible(
                     child: TextFormField(
+                      controller: _passwordController,
                       obscureText: _isObscure,
                       validator: (value) {
-                        if (value!.isEmpty || value.length < 5) {
+                        if (value!.isEmpty || value.length < 8) {
                           return 'Password is too short';
                         }
                         return null;
@@ -111,10 +120,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
                           child: TextFormField(
                             obscureText: _isConfirmedObscure,
                             validator: (value) {
-                              if (value!.isEmpty || value.length < 5) {
-                                return 'Password is too short';
+                              if (value != _passwordController.text) {
+                                return 'Passwords do not match!';
                               }
-                              return null;
                             },
                             onSaved: (newValue) {
                               authData['re_password'] = newValue!;

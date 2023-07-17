@@ -69,7 +69,7 @@ class Auth with ChangeNotifier {
       _refreshToken = responseBody['refresh'];
       _expiryDate = DateTime.now().add(const Duration(seconds: 250));
       notifyListeners();
-      // print(res.body);
+      print(responseBody);
       print(_token);
       print(_refreshToken);
     } catch (e) {
